@@ -3,7 +3,7 @@
 ### Some features below have not been built yet.
 
 MERN + GraphQL Client and Project Management App
-This is a mini CRM app built with MERN stack (MongoDB, Express.js, React, and Node.js) and GraphQL. It is designed to help you learn about client and project management, and to provide you with a hands-on experience with these technologies.
+This is a nano CRM app built with MERN stack (MongoDB, Express.js, React, and Node.js) and GraphQL. I plan on implementing Docker, Unit tests and to have this hosted in AWS.
 
 ## Features
 
@@ -11,7 +11,6 @@ This is a mini CRM app built with MERN stack (MongoDB, Express.js, React, and No
 - Assign projects to clients and track their progress
 - Set deadlines and track time spent on tasks
 - View reports on client and project performance
-- And much more!
 
 ## Requirements
 
