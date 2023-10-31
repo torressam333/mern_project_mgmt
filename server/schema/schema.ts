@@ -1,9 +1,9 @@
 import {
-  buildSchema,
   GraphQLObjectType,
   GraphQLID,
   GraphQLString,
   GraphQLSchema,
+  GraphQLList,
 } from 'graphql';
 import { projects, clients } from '../data/sampleProjects';
 
@@ -17,14 +17,44 @@ const ClientType = new GraphQLObjectType({
   }),
 });
 
+const ProjectType = new GraphQLObjectType({
+  name: 'Project',
+  fields: () => ({
+    id: { type: GraphQLID },
+    clientId: { type: GraphQLID },
+    name: { type: GraphQLString },
+    description: { type: GraphQLString },
+    status: { type: GraphQLString },
+  }),
+});
+
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
+    clients: {
+      type: new GraphQLList(ClientType), // Multiple clients
+      resolve() {
+        return clients;
+      },
+    },
     client: {
       type: ClientType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         return clients.find((client) => client.id === Number(args.id));
+      },
+    },
+    projects: {
+      type: new GraphQLList(ProjectType), // Multiple projects
+      resolve() {
+        return projects;
+      },
+    },
+    project: {
+      type: ProjectType,
+      args: { id: { type: GraphQLID } },
+      resolve(parent, args) {
+        return clients.find((project) => project.id === Number(args.id));
       },
     },
   },

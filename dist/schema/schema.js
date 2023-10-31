@@ -11,14 +11,43 @@ const ClientType = new graphql_1.GraphQLObjectType({
         phone: { type: graphql_1.GraphQLString },
     }),
 });
+const ProjectType = new graphql_1.GraphQLObjectType({
+    name: 'Project',
+    fields: () => ({
+        id: { type: graphql_1.GraphQLID },
+        clientId: { type: graphql_1.GraphQLID },
+        name: { type: graphql_1.GraphQLString },
+        description: { type: graphql_1.GraphQLString },
+        status: { type: graphql_1.GraphQLString },
+    }),
+});
 const RootQuery = new graphql_1.GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
+        clients: {
+            type: new graphql_1.GraphQLList(ClientType),
+            resolve() {
+                return sampleProjects_1.clients;
+            },
+        },
         client: {
             type: ClientType,
             args: { id: { type: graphql_1.GraphQLID } },
             resolve(parent, args) {
                 return sampleProjects_1.clients.find((client) => client.id === Number(args.id));
+            },
+        },
+        projects: {
+            type: new graphql_1.GraphQLList(ProjectType),
+            resolve() {
+                return sampleProjects_1.projects;
+            },
+        },
+        project: {
+            type: ProjectType,
+            args: { id: { type: graphql_1.GraphQLID } },
+            resolve(parent, args) {
+                return sampleProjects_1.clients.find((project) => project.id === Number(args.id));
             },
         },
     },

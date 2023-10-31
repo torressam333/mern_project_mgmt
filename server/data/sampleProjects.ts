@@ -55,25 +55,25 @@ type Client = {
 
 const clients: Client[] = [
   {
-    id: 105,
+    id: 101,
     name: 'User 1',
     email: 'user1@example.com',
     phone: '111-111-1111',
   },
   {
-    id: 104,
+    id: 102,
     name: 'User 2',
     email: 'user2@example.com',
     phone: '222-222-2222',
   },
   {
-    id: 104,
+    id: 103,
     name: 'User 3',
     email: 'user3@example.com',
     phone: '333-333-3333',
   },
   {
-    id: 101,
+    id: 104,
     name: 'User 4',
     email: 'user4@example.com',
     phone: '444-444-4444',
@@ -83,36 +83,6 @@ const clients: Client[] = [
     name: 'User 5',
     email: 'user5@example.com',
     phone: '555-555-5555',
-  },
-  {
-    id: 103,
-    name: 'User 6',
-    email: 'user6@example.com',
-    phone: '666-666-6666',
-  },
-  {
-    id: 104,
-    name: 'User 7',
-    email: 'user7@example.com',
-    phone: '777-777-7777',
-  },
-  {
-    id: 104,
-    name: 'User 8',
-    email: 'user8@example.com',
-    phone: '888-888-8888',
-  },
-  {
-    id: 102,
-    name: 'User 9',
-    email: 'user9@example.com',
-    phone: '999-999-9999',
-  },
-  {
-    id: 101,
-    name: 'User 10',
-    email: 'user10@example.com',
-    phone: '101-101-1010',
   },
 ];
 
