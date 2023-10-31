@@ -24,6 +24,7 @@ const PORT = process.env.PORT || 5000;
 const app = (0, express_1.default)();
 // Connect to db
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
+    // Server not in cache? Spin up fresh server/db
     try {
         //connect to db
         yield (0, mongodb_1.default)();
@@ -32,11 +33,11 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
             schema: schema_1.default,
             graphiql: process.env.NODE_ENV === 'development' && true,
         }));
-        app.listen(PORT);
-        console.log(`Running a GraphQL API server at http://localhost:${PORT}/v1/graphql`);
+        app.listen(PORT, () => console.log(`Running a GraphQL API server at http://localhost:${PORT}/v1/graphql`));
     }
     catch (error) {
         console.error('Error in index file', error);
     }
 });
+// Start the server using IIFE
 start();
