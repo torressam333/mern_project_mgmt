@@ -115,3 +115,5 @@ const clients: Client[] = [
     phone: '101-101-1010',
   },
 ];
+
+export { projects, clients };

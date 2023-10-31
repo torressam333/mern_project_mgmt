@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.clients = exports.projects = void 0;
 const projects = [
     {
         id: 1,
@@ -36,6 +38,7 @@ const projects = [
         status: 'Not Started',
     },
 ];
+exports.projects = projects;
 const clients = [
     {
         id: 105,
@@ -98,3 +101,4 @@ const clients = [
         phone: '101-101-1010',
     },
 ];
+exports.clients = clients;
