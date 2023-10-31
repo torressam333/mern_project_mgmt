@@ -1,17 +1,14 @@
 import express, { Application } from 'express';
 import { graphqlHTTP } from 'express-graphql';
-import { buildSchema } from 'graphql';
 import dotenv from 'dotenv';
+
+// Project imports
+import schema from './schema/schema';
 
 //For env File
 dotenv.config();
 
-// Construct a schema, using GraphQL schema language
-const schema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`);
+const PORT = process.env.PORT || 5000;
 
 // The root provides a resolver function for each API endpoint
 const root = {
@@ -24,12 +21,14 @@ const app: Application = express();
 app.use(
   '/v1/graphql',
   graphqlHTTP({
-    schema: schema,
+    schema,
     rootValue: root,
-    graphiql: true,
+    graphiql: process.env.NODE_ENV === 'development' && true,
   })
 );
 
-app.listen(4005);
+app.listen(PORT);
 
-console.log('Running a GraphQL API server at http://localhost:4005/v1/graphql');
+console.log(
+  `Running a GraphQL API server at http://localhost:${PORT}/v1/graphql`
+);
