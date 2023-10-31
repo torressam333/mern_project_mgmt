@@ -6,7 +6,7 @@ export interface IProject {
   name: string;
   description: string;
   status: 'Not Started' | 'In Progress' | 'Completed';
-  clientId: mongoose.Schema.Types.ObjectId;
+  clientId?: mongoose.Schema.Types.ObjectId;
 }
 
 const ProjectSchema = new mongoose.Schema<IProject>({

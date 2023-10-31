@@ -1,7 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_1 = require("graphql");
-const sampleProjects_1 = require("../data/sampleProjects");
+// Project imports
+const Project_1 = __importDefault(require("../models/Project"));
+const Client_1 = __importDefault(require("../models/Client"));
 const ClientType = new graphql_1.GraphQLObjectType({
     name: 'Client',
     fields: () => ({
@@ -21,8 +26,9 @@ const ProjectType = new graphql_1.GraphQLObjectType({
         status: { type: graphql_1.GraphQLString },
         client: {
             type: ClientType,
-            resolve(parent, args) {
-                return sampleProjects_1.clients.find((client) => client.id === parent.clientId);
+            resolve(parent) {
+                console.log(parent);
+                return Client_1.default.findById(parent.clientId);
             },
         },
     }),
@@ -33,27 +39,29 @@ const RootQuery = new graphql_1.GraphQLObjectType({
         clients: {
             type: new graphql_1.GraphQLList(ClientType),
             resolve() {
-                return sampleProjects_1.clients;
+                return Client_1.default.find();
             },
         },
         client: {
             type: ClientType,
             args: { id: { type: graphql_1.GraphQLID } },
             resolve(parent, args) {
-                return sampleProjects_1.clients.find((client) => client.id === Number(args.id));
+                const argsId = Number(args.id);
+                return Client_1.default.findById(argsId);
             },
         },
         projects: {
             type: new graphql_1.GraphQLList(ProjectType),
             resolve() {
-                return sampleProjects_1.projects;
+                return Project_1.default.find();
             },
         },
         project: {
             type: ProjectType,
             args: { id: { type: graphql_1.GraphQLID } },
             resolve(parent, args) {
-                return sampleProjects_1.projects.find((project) => project.id === Number(args.id));
+                const argsId = Number(args.id);
+                return Project_1.default.findById(argsId);
             },
         },
     },
