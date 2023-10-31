@@ -16,12 +16,13 @@
   "author": "Sam Torres",
   "license": "ISC",
   "dependencies": {
-    "colors": "^1.4.0",
+    "@types/mongodb": "^4.0.7",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-graphql": "^0.12.0",
     "graphql": "^15.8.0",
     "helmet": "^7.0.0",
+    "mongodb": "^6.2.0",
     "mongoose": "^8.0.0"
   },
   "devDependencies": {
