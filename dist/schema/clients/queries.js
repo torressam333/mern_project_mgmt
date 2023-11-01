@@ -18,7 +18,7 @@ const clientQueries = {
         type: types_1.ClientType,
         args: { id: { type: graphql_1.GraphQLID } },
         resolve(_, args) {
-            const argsId = Number(args.id);
+            const argsId = args.id;
             return Client_1.default.findById(argsId);
         },
     },

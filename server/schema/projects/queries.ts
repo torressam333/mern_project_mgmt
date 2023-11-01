@@ -14,7 +14,7 @@ const projectQueries = {
     type: ProjectType,
     args: { id: { type: GraphQLID } },
     resolve(_: any, args: any) {
-      const argsId = Number(args.id);
+      const argsId = args.id;
 
       return Project.findById(argsId);
     },
