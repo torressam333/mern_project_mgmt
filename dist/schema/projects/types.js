@@ -18,7 +18,6 @@ exports.ProjectType = new graphql_1.GraphQLObjectType({
         client: {
             type: types_1.ClientType,
             resolve(parent) {
-                console.log(parent);
                 return Client_1.default.findById(parent.clientId);
             },
         },

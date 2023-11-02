@@ -9,12 +9,19 @@ import { ClientType } from './clients/types';
 import Client from '../models/Client';
 import { ProjectType } from './projects/types';
 import Project from '../models/Project';
+import { MongooseError } from 'mongoose';
 
 type ProjectResolverArgs = {
   name: GraphQLNonNull<typeof GraphQLString>;
   description: GraphQLNonNull<typeof GraphQLString>;
   status: GraphQLEnumType;
   clientId: GraphQLNonNull<typeof GraphQLID>;
+};
+
+const projectStatuValues = {
+  new: { value: 'Not Started' },
+  progress: { value: 'In Progress' },
+  completed: { value: 'Completed' },
 };
 
 const mutation = new GraphQLObjectType({
@@ -68,11 +75,7 @@ const mutation = new GraphQLObjectType({
         status: {
           type: new GraphQLEnumType({
             name: 'ProjectStatus',
-            values: {
-              new: { value: 'Not Started' },
-              progress: { value: 'In Progress' },
-              completed: { value: 'Completed' },
-            },
+            values: projectStatuValues,
           }),
           defaultValue: 'Not Started',
         },
@@ -106,6 +109,41 @@ const mutation = new GraphQLObjectType({
           return { status: 202, message: 'Accepted' };
         } catch (error: any) {
           throw new Error(error.message);
+        }
+      },
+    },
+    updateProject: {
+      type: ProjectType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLID) },
+        name: { type: GraphQLString },
+        description: { type: GraphQLString },
+        status: {
+          type: new GraphQLEnumType({
+            name: 'ProjectStatusUpdate',
+            values: projectStatuValues,
+          }),
+        },
+      },
+      async resolve(_, args) {
+        try {
+          const projectToUpdate = Project.findByIdAndUpdate(
+            args.id,
+            {
+              $set: {
+                name: args.name,
+                description: args.description,
+                status: args.status,
+              },
+            },
+            { new: true } // Create new if not found
+          );
+
+          return projectToUpdate;
+        } catch (error: any) {
+          if (error instanceof MongooseError)
+            throw new Error(`Mongoose update error: ${error.message}`);
+          else throw new Error(error.message);
         }
       },
     },

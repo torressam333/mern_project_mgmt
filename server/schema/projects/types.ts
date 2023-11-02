@@ -13,7 +13,6 @@ export const ProjectType = new GraphQLObjectType({
     client: {
       type: ClientType,
       resolve(parent) {
-        console.log(parent);
         return Client.findById(parent.clientId);
       },
     },
