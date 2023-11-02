@@ -52,9 +52,9 @@ const mutation = new GraphQLObjectType({
 
           if (!client) throw Error('Client not found');
 
-          const deleteClient = await client?.deleteOne();
+          await client?.deleteOne();
 
-          return deleteClient;
+          return { status: 202, message: 'Accepted' };
         } catch (error: any) {
           throw new Error(error.message);
         }
@@ -78,7 +78,7 @@ const mutation = new GraphQLObjectType({
         },
         clientId: { type: GraphQLNonNull(GraphQLID) },
       },
-      async resolve(parent, args) {
+      async resolve(_, args) {
         const { name, description, status, clientId } =
           args as ProjectResolverArgs;
 
@@ -88,6 +88,25 @@ const mutation = new GraphQLObjectType({
 
         // Make available in response
         return project;
+      },
+    },
+    deleteProjectById: {
+      type: ProjectType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLID) },
+      },
+      async resolve(_, args) {
+        try {
+          const project = await Project.findById(args.id);
+
+          if (!project) throw new Error('Project not found');
+
+          await project.deleteOne();
+
+          return { status: 202, message: 'Accepted' };
+        } catch (error: any) {
+          throw new Error(error.message);
+        }
       },
     },
   },

@@ -51,8 +51,8 @@ const mutation = new graphql_1.GraphQLObjectType({
                         const client = yield Client_1.default.findById(args.id);
                         if (!client)
                             throw Error('Client not found');
-                        const deleteClient = yield (client === null || client === void 0 ? void 0 : client.deleteOne());
-                        return deleteClient;
+                        yield (client === null || client === void 0 ? void 0 : client.deleteOne());
+                        return { status: 202, message: 'Accepted' };
                     }
                     catch (error) {
                         throw new Error(error.message);
@@ -78,13 +78,33 @@ const mutation = new graphql_1.GraphQLObjectType({
                 },
                 clientId: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLID) },
             },
-            resolve(parent, args) {
+            resolve(_, args) {
                 return __awaiter(this, void 0, void 0, function* () {
                     const { name, description, status, clientId } = args;
                     const project = new Project_1.default({ name, description, status, clientId });
                     yield project.save();
                     // Make available in response
                     return project;
+                });
+            },
+        },
+        deleteProjectById: {
+            type: types_2.ProjectType,
+            args: {
+                id: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLID) },
+            },
+            resolve(_, args) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    try {
+                        const project = yield Project_1.default.findById(args.id);
+                        if (!project)
+                            throw new Error('Project not found');
+                        yield project.deleteOne();
+                        return { status: 202, message: 'Accepted' };
+                    }
+                    catch (error) {
+                        throw new Error(error.message);
+                    }
                 });
             },
         },
