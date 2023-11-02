@@ -6,6 +6,7 @@ export interface IClient {
   name: string;
   email: string;
   phone?: string;
+  isDeleted?: boolean;
 }
 
 const ClientSchema = new mongoose.Schema<IClient>({
@@ -20,6 +21,11 @@ const ClientSchema = new mongoose.Schema<IClient>({
   },
   phone: {
     type: String,
+  },
+  // Add an isDeleted field for soft deletes
+  isDeleted: {
+    type: Boolean,
+    default: false,
   },
 });
 

@@ -51,13 +51,17 @@ const mutation = new graphql_1.GraphQLObjectType({
             args: {
                 id: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLID) },
             },
-            resolve(parent, args) {
+            resolve(_, args) {
                 return __awaiter(this, void 0, void 0, function* () {
                     try {
-                        const client = yield Client_1.default.findById(args.id);
+                        const client = yield Client_1.default.findById({
+                            id: args.id,
+                            isDeleted: false,
+                        });
                         if (!client)
                             throw Error('Client not found');
-                        yield (client === null || client === void 0 ? void 0 : client.deleteOne());
+                        // Soft delete the client
+                        yield client.updateOne({ isDeleted: true });
                         return { status: 202, message: 'Accepted' };
                     }
                     catch (error) {
@@ -98,10 +102,14 @@ const mutation = new graphql_1.GraphQLObjectType({
             resolve(_, args) {
                 return __awaiter(this, void 0, void 0, function* () {
                     try {
-                        const project = yield Project_1.default.findById(args.id);
+                        const project = yield Project_1.default.findOne({
+                            _id: args.id,
+                            isDeleted: false,
+                        });
                         if (!project)
                             throw new Error('Project not found');
-                        yield project.deleteOne();
+                        // Update the project's isDeleted flag to true (soft delete)
+                        yield project.updateOne({ isDeleted: true });
                         return { status: 202, message: 'Accepted' };
                     }
                     catch (error) {

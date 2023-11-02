@@ -7,7 +7,8 @@ const projectQueries = {
   projects: {
     type: new GraphQLList(ProjectType), // Multiple projects
     resolve() {
-      return Project.find();
+      // Return all projects except soft deleted ones
+      return Project.find({ isDeleted: false });
     },
   },
   project: {

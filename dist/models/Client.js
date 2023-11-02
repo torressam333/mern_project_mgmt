@@ -18,5 +18,10 @@ const ClientSchema = new mongoose_1.default.Schema({
     phone: {
         type: String,
     },
+    // Add an isDeleted field for soft deletes
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    },
 });
 exports.default = mongoose_1.default.model('Client', ClientSchema);

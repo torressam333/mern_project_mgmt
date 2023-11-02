@@ -7,6 +7,7 @@ export interface IProject {
   description: string;
   status: 'Not Started' | 'In Progress' | 'Completed';
   clientId?: mongoose.Schema.Types.ObjectId;
+  isDeleted?: boolean;
 }
 
 const ProjectSchema = new mongoose.Schema<IProject>({
@@ -26,6 +27,10 @@ const ProjectSchema = new mongoose.Schema<IProject>({
     // Always assign _id relating project ref -> client id
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Client',
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false,
   },
 });
 

@@ -53,13 +53,17 @@ const mutation = new GraphQLObjectType({
       args: {
         id: { type: GraphQLNonNull(GraphQLID) },
       },
-      async resolve(parent, args) {
+      async resolve(_, args) {
         try {
-          const client = await Client.findById(args.id);
+          const client = await Client.findById({
+            id: args.id,
+            isDeleted: false,
+          });
 
           if (!client) throw Error('Client not found');
 
-          await client?.deleteOne();
+          // Soft delete the client
+          await client.updateOne({ isDeleted: true });
 
           return { status: 202, message: 'Accepted' };
         } catch (error: any) {
@@ -100,11 +104,15 @@ const mutation = new GraphQLObjectType({
       },
       async resolve(_, args) {
         try {
-          const project = await Project.findById(args.id);
+          const project = await Project.findOne({
+            _id: args.id,
+            isDeleted: false,
+          });
 
           if (!project) throw new Error('Project not found');
 
-          await project.deleteOne();
+          // Update the project's isDeleted flag to true (soft delete)
+          await project.updateOne({ isDeleted: true });
 
           return { status: 202, message: 'Accepted' };
         } catch (error: any) {
