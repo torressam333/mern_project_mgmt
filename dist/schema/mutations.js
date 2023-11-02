@@ -38,6 +38,26 @@ const mutation = new graphql_1.GraphQLObjectType({
                 });
             },
         },
+        deleteClient: {
+            type: types_1.ClientType,
+            args: {
+                id: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLID) },
+            },
+            resolve(parent, args) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    try {
+                        const client = yield Client_1.default.findById(args.id);
+                        if (!client)
+                            throw Error('Client not found');
+                        const deleteClient = yield (client === null || client === void 0 ? void 0 : client.deleteOne());
+                        return deleteClient;
+                    }
+                    catch (error) {
+                        throw new Error(error.message);
+                    }
+                });
+            },
+        },
     },
 });
 exports.default = mutation;
