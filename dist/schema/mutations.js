@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_1 = require("graphql");
 const types_1 = require("./clients/types");
 const Client_1 = __importDefault(require("../models/Client"));
+const types_2 = require("./projects/types");
+const Project_1 = __importDefault(require("../models/Project"));
 const mutation = new graphql_1.GraphQLObjectType({
     name: 'Mutation',
     fields: {
@@ -55,6 +57,34 @@ const mutation = new graphql_1.GraphQLObjectType({
                     catch (error) {
                         throw new Error(error.message);
                     }
+                });
+            },
+        },
+        addProject: {
+            type: types_2.ProjectType,
+            args: {
+                name: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLString) },
+                description: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLString) },
+                status: {
+                    type: new graphql_1.GraphQLEnumType({
+                        name: 'ProjectStatus',
+                        values: {
+                            new: { value: 'Not Started' },
+                            progress: { value: 'In Progressd' },
+                            completed: { value: 'Completed' },
+                        },
+                    }),
+                    defaultValue: 'Not Started',
+                },
+                clientId: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLID) },
+            },
+            resolve(parent, args) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    const { name, description, status, clientId } = args;
+                    const project = new Project_1.default({ name, description, status, clientId });
+                    yield project.save();
+                    // Make available in response
+                    return project;
                 });
             },
         },

@@ -3,9 +3,19 @@ import {
   GraphQLString,
   GraphQLNonNull,
   GraphQLID,
+  GraphQLEnumType,
 } from 'graphql';
 import { ClientType } from './clients/types';
 import Client from '../models/Client';
+import { ProjectType } from './projects/types';
+import Project from '../models/Project';
+
+type ProjectResolverArgs = {
+  name: GraphQLNonNull<typeof GraphQLString>;
+  description: GraphQLNonNull<typeof GraphQLString>;
+  status: GraphQLEnumType;
+  clientId: GraphQLNonNull<typeof GraphQLID>;
+};
 
 const mutation = new GraphQLObjectType({
   name: 'Mutation',
@@ -48,6 +58,36 @@ const mutation = new GraphQLObjectType({
         } catch (error: any) {
           throw new Error(error.message);
         }
+      },
+    },
+    addProject: {
+      type: ProjectType,
+      args: {
+        name: { type: GraphQLNonNull(GraphQLString) },
+        description: { type: GraphQLNonNull(GraphQLString) },
+        status: {
+          type: new GraphQLEnumType({
+            name: 'ProjectStatus',
+            values: {
+              new: { value: 'Not Started' },
+              progress: { value: 'In Progressd' },
+              completed: { value: 'Completed' },
+            },
+          }),
+          defaultValue: 'Not Started',
+        },
+        clientId: { type: GraphQLNonNull(GraphQLID) },
+      },
+      async resolve(parent, args) {
+        const { name, description, status, clientId } =
+          args as ProjectResolverArgs;
+
+        const project = new Project({ name, description, status, clientId });
+
+        await project.save();
+
+        // Make available in response
+        return project;
       },
     },
   },
