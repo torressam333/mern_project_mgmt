@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const express_graphql_1 = require("express-graphql");
 const dotenv_1 = __importDefault(require("dotenv"));
+const cors_1 = __importDefault(require("cors"));
 //For env File
 dotenv_1.default.config();
 // Project imports
@@ -22,6 +23,7 @@ const schema_1 = __importDefault(require("./schema/schema"));
 const mongodb_1 = __importDefault(require("./config/mongodb"));
 const PORT = process.env.PORT || 5000;
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
 // Connect to db
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     // Server not in cache? Spin up fresh server/db

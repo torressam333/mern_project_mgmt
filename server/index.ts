@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 //For env File
 dotenv.config();
@@ -13,8 +14,9 @@ const PORT = process.env.PORT || 5000;
 
 const app: Application = express();
 
-// Connect to db
+app.use(cors());
 
+// Connect to db
 const start = async () => {
   // Server not in cache? Spin up fresh server/db
   try {
