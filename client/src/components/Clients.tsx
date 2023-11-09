@@ -27,7 +27,7 @@ const Clients = () => {
   const { loading, error, data } = useQuery<ClientResults>(GET_CLIENTS);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return `Something went wrong: ${error}`;
+  if (error) return `Something went wrong`;
 
   return (
     <>

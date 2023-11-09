@@ -17,6 +17,14 @@ const mockClients = [
   },
 ];
 
+const clientMock = {
+  request: {
+    query: GET_CLIENTS,
+    variables: {},
+  },
+  error: new Error('Something went wrong'),
+};
+
 describe('Clients component', () => {
   it('should render loading message when data is loading', () => {
     render(
@@ -33,6 +41,16 @@ describe('Clients component', () => {
     );
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
+  });
+
+  it('should render an error message if the query fails', async () => {
+    render(
+      <MockedProvider mocks={[clientMock]} addTypename={false}>
+        <Clients />
+      </MockedProvider>
+    );
+
+    expect(await screen.findByText('Something went wrong')).toBeInTheDocument();
   });
 
   it('should render clients table when data is successfully fetched', async () => {
