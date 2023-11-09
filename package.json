@@ -5,8 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "build": "npx tsc",
-    "start-server": "node dist/server/index.js",
-    "dev-server": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server/index.js\"",
+    "serve": "node dist/server/index.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server/index.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

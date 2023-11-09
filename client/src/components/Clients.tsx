@@ -1,17 +1,18 @@
 import { useQuery, gql } from '@apollo/client';
+import ClientRow from './ClientRow';
+
 interface ClientData {
   id: string;
   name: string;
   email: string;
-  phone?: string;
-  isDeleted?: boolean;
+  phone: string;
 }
 
 interface ClientResults {
   clients: ClientData[];
 }
 
-const GET_CLIENTS = gql`
+export const GET_CLIENTS = gql`
   query getClients {
     clients {
       id
@@ -25,25 +26,36 @@ const GET_CLIENTS = gql`
 const Clients = () => {
   const { loading, error, data } = useQuery<ClientResults>(GET_CLIENTS);
 
-  if (loading) return <p>Fetching your clients...</p>;
-  if (loading) return `Something went wrong: ${error}`;
+  if (loading) return <p>Loading...</p>;
+  if (error) return `Something went wrong: ${error}`;
 
   return (
-    <div>
-      <h1>All Clients</h1>
+    <>
+      <h1 data-testid='clients-header'>All Clients</h1>
       {!loading && !error && (
         <div>
-          {data &&
-            data.clients.map((client) => (
-              <div key={client.id}>
-                <p>{client.id}</p>
-                <p>{client.name}</p>
-                <p>{client.email}</p>
-              </div>
-            ))}
+          <table
+            className='table table-hover mt-3'
+            data-testid='custom-element'
+          >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {data &&
+                data.clients.map((client) => (
+                  <ClientRow key={client.id} client={client} />
+                ))}
+            </tbody>
+          </table>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
