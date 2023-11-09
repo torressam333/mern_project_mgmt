@@ -34,10 +34,7 @@ const Clients = () => {
       <h1 data-testid='clients-header'>All Clients</h1>
       {!loading && !error && (
         <div>
-          <table
-            className='table table-hover mt-3'
-            data-testid='custom-element'
-          >
+          <table className='table table-hover mt-3' data-testid='clients-table'>
             <thead>
               <tr>
                 <th>Name</th>

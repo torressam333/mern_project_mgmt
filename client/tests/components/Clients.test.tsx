@@ -51,7 +51,7 @@ describe('Clients component', () => {
 
     await waitFor(() => screen.getByTestId('clients-header'));
     expect(screen.getByTestId('clients-header')).toBeInTheDocument();
-    expect(screen.getByTestId('custom-element')).toBeInTheDocument();
+    expect(screen.getByTestId('clients-table')).toBeInTheDocument();
     // One row for header and two for clients
     expect(screen.getAllByRole('row')).toHaveLength(3);
   });
