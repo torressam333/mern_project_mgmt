@@ -18,5 +18,15 @@ describe('Client Row', () => {
       expect(client).toHaveProperty('email');
       expect(client).toHaveProperty('phone');
     });
+
+    it('renders the client information correctly in the DOM', () => {
+      const nameElement = screen.getByText(/John Doe/i);
+      const emailElement = screen.getByText(/john.doe@example.com/i);
+      const phoneElement = screen.getByText('(123) 456-7890');
+
+      expect(nameElement).toBeInTheDocument();
+      expect(emailElement).toBeInTheDocument();
+      expect(phoneElement).toBeInTheDocument();
+    });
   });
 });
