@@ -1,27 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -31,10 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = require("@testing-library/react");
 const testing_1 = require("@apollo/client/testing");
-const Clients_1 = __importStar(require("../../src/components/Clients"));
+const Clients_1 = __importDefault(require("../../src/components/Clients"));
+const clientQueries_1 = require("../../src/queries/clientQueries");
 const mockClients = [
     {
         id: '1',
@@ -51,7 +32,7 @@ const mockClients = [
 ];
 const clientMock = {
     request: {
-        query: Clients_1.GET_CLIENTS,
+        query: clientQueries_1.GET_CLIENTS,
         variables: {},
     },
     error: new Error('Something went wrong'),
@@ -60,7 +41,7 @@ describe('Clients component', () => {
     it('should render loading message when data is loading', () => {
         (0, react_1.render)(<testing_1.MockedProvider mocks={[
                 {
-                    request: { query: Clients_1.GET_CLIENTS },
+                    request: { query: clientQueries_1.GET_CLIENTS },
                     result: { data: { loading: true } },
                 },
             ]}>
@@ -77,7 +58,7 @@ describe('Clients component', () => {
     it('should render clients table when data is successfully fetched', () => __awaiter(void 0, void 0, void 0, function* () {
         (0, react_1.render)(<testing_1.MockedProvider mocks={[
                 {
-                    request: { query: Clients_1.GET_CLIENTS },
+                    request: { query: clientQueries_1.GET_CLIENTS },
                     result: { data: { clients: mockClients } },
                 },
             ]}>

@@ -3,21 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GET_CLIENTS = void 0;
 const client_1 = require("@apollo/client");
 const ClientRow_1 = __importDefault(require("./ClientRow"));
-exports.GET_CLIENTS = (0, client_1.gql) `
-  query getClients {
-    clients {
-      id
-      name
-      email
-      phone
-    }
-  }
-`;
+const clientQueries_1 = require("../queries/clientQueries");
 const Clients = () => {
-    const { loading, error, data } = (0, client_1.useQuery)(exports.GET_CLIENTS);
+    const { loading, error, data } = (0, client_1.useQuery)(clientQueries_1.GET_CLIENTS);
     if (loading)
         return <p>Loading...</p>;
     if (error)

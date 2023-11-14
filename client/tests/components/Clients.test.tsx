@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
-import Clients, { GET_CLIENTS } from '../../src/components/Clients';
+import Clients from '../../src/components/Clients';
+import { GET_CLIENTS } from '../../src/queries/clientQueries';
 
 const mockClients = [
   {
