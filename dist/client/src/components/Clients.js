@@ -3,9 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GET_CLIENTS = void 0;
 const client_1 = require("@apollo/client");
 const ClientRow_1 = __importDefault(require("./ClientRow"));
-const GET_CLIENTS = (0, client_1.gql) `
+exports.GET_CLIENTS = (0, client_1.gql) `
   query getClients {
     clients {
       id
@@ -16,15 +17,15 @@ const GET_CLIENTS = (0, client_1.gql) `
   }
 `;
 const Clients = () => {
-    const { loading, error, data } = (0, client_1.useQuery)(GET_CLIENTS);
+    const { loading, error, data } = (0, client_1.useQuery)(exports.GET_CLIENTS);
     if (loading)
-        return <p>Fetching your clients...</p>;
-    if (loading)
-        return `Something went wrong: ${error}`;
+        return <p>Loading...</p>;
+    if (error)
+        return `Something went wrong`;
     return (<>
-      <h1>All Clients</h1>
+      <h1 data-testid='clients-header'>All Clients</h1>
       {!loading && !error && (<div>
-          <table className='table table-hover mt-3'>
+          <table className='table table-hover mt-3' data-testid='clients-table'>
             <thead>
               <tr>
                 <th>Name</th>

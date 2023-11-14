@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ClientRow from '../../src/components/ClientRow';
 
 describe('Client Row', () => {
@@ -27,6 +27,15 @@ describe('Client Row', () => {
       expect(nameElement).toBeInTheDocument();
       expect(emailElement).toBeInTheDocument();
       expect(phoneElement).toBeInTheDocument();
+    });
+
+    it('renders a delete button with trash icon', async () => {
+      const deleteButton = screen.getByRole('button');
+
+      const trashIcon = deleteButton.querySelector('svg');
+
+      expect(trashIcon).toBeInTheDocument();
+      expect(deleteButton).toBeInTheDocument();
     });
   });
 });

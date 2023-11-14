@@ -1,3 +1,5 @@
+import { FaTrash } from 'react-icons/fa';
+
 type ClientProps = {
   client: {
     name: string;
@@ -14,6 +16,11 @@ const ClientRow = ({ client }: ClientProps) => {
       <td>{name}</td>
       <td>{email}</td>
       <td>{phone}</td>
+      <td>
+        <button className='btn btn-danger btn-sm'>
+          <FaTrash />
+        </button>
+      </td>
     </tr>
   );
 };
