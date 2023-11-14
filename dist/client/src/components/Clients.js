@@ -6,10 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@apollo/client");
 const ClientRow_1 = __importDefault(require("./ClientRow"));
 const clientQueries_1 = require("../queries/clientQueries");
+const Loader_1 = __importDefault(require("./Loader"));
 const Clients = () => {
     const { loading, error, data } = (0, client_1.useQuery)(clientQueries_1.GET_CLIENTS);
     if (loading)
-        return <p>Loading...</p>;
+        return <Loader_1.default />;
     if (error)
         return `Something went wrong`;
     return (<>

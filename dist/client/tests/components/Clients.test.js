@@ -38,7 +38,7 @@ const clientMock = {
     error: new Error('Something went wrong'),
 };
 describe('Clients component', () => {
-    it('should render loading message when data is loading', () => {
+    it('should render loader component when data is loading', () => {
         (0, react_1.render)(<testing_1.MockedProvider mocks={[
                 {
                     request: { query: clientQueries_1.GET_CLIENTS },
@@ -47,7 +47,7 @@ describe('Clients component', () => {
             ]}>
         <Clients_1.default />
       </testing_1.MockedProvider>);
-        expect(react_1.screen.getByText('Loading...')).toBeInTheDocument();
+        expect(react_1.screen.getByRole('status')).toBeInTheDocument();
     });
     it('should render an error message if the query fails', () => __awaiter(void 0, void 0, void 0, function* () {
         (0, react_1.render)(<testing_1.MockedProvider mocks={[clientMock]} addTypename={false}>

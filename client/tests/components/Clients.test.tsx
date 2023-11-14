@@ -27,7 +27,7 @@ const clientMock = {
 };
 
 describe('Clients component', () => {
-  it('should render loading message when data is loading', () => {
+  it('should render loader component when data is loading', () => {
     render(
       <MockedProvider
         mocks={[
@@ -41,7 +41,7 @@ describe('Clients component', () => {
       </MockedProvider>
     );
 
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByRole('status')).toBeInTheDocument();
   });
 
   it('should render an error message if the query fails', async () => {

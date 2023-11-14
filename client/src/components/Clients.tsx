@@ -1,22 +1,23 @@
 import { useQuery } from '@apollo/client';
 import ClientRow from './ClientRow';
 import { GET_CLIENTS } from '../queries/clientQueries';
+import Loader from './Loader';
 
-interface ClientData {
+export interface ClientData {
   id: string;
   name: string;
   email: string;
   phone: string;
 }
 
-interface ClientResults {
+export interface ClientResults {
   clients: ClientData[];
 }
 
 const Clients = () => {
   const { loading, error, data } = useQuery<ClientResults>(GET_CLIENTS);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
   if (error) return `Something went wrong`;
 
   return (
