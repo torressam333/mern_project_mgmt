@@ -8,7 +8,7 @@ const clientQueries = {
   clients: {
     type: new GraphQLList(ClientType), // Multiple clients
     resolve() {
-      return Client.find();
+      return Client.find({ isDeleted: false }).exec();
     },
   },
   client: {

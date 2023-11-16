@@ -11,7 +11,7 @@ const clientQueries = {
     clients: {
         type: new graphql_1.GraphQLList(types_1.ClientType),
         resolve() {
-            return Client_1.default.find();
+            return Client_1.default.find({ isDeleted: false }).exec();
         },
     },
     client: {
