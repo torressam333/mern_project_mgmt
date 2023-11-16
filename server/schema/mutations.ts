@@ -10,6 +10,7 @@ import Client from '../models/Client';
 import { ProjectType } from './projects/types';
 import Project from '../models/Project';
 import { MongooseError } from 'mongoose';
+import mongoose from 'mongoose';
 
 type ProjectResolverArgs = {
   name: GraphQLNonNull<typeof GraphQLString>;
@@ -55,15 +56,16 @@ const mutation = new GraphQLObjectType({
       },
       async resolve(_, args) {
         try {
-          const client = await Client.findById({
-            id: args.id,
-            isDeleted: false,
+          const id = args.id;
+
+          // Find client and soft delete
+          const client = await Client.findByIdAndUpdate(id, {
+            isDeleted: true,
           });
 
           if (!client) throw Error('Client not found');
 
-          // Soft delete the client
-          await client.updateOne({ isDeleted: true });
+          console.log(client);
 
           return { status: 202, message: 'Accepted' };
         } catch (error: any) {

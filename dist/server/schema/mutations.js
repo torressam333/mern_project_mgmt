@@ -54,14 +54,14 @@ const mutation = new graphql_1.GraphQLObjectType({
             resolve(_, args) {
                 return __awaiter(this, void 0, void 0, function* () {
                     try {
-                        const client = yield Client_1.default.findById({
-                            id: args.id,
-                            isDeleted: false,
+                        const id = args.id;
+                        // Find client and soft delete
+                        const client = yield Client_1.default.findByIdAndUpdate(id, {
+                            isDeleted: true,
                         });
                         if (!client)
                             throw Error('Client not found');
-                        // Soft delete the client
-                        yield client.updateOne({ isDeleted: true });
+                        console.log(client);
                         return { status: 202, message: 'Accepted' };
                     }
                     catch (error) {

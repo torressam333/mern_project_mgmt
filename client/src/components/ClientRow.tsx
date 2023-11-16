@@ -2,8 +2,6 @@ import { FaTrash } from 'react-icons/fa';
 import { DELETE_CLIENT } from '../mutations/clientMutations';
 import { useMutation } from '@apollo/client';
 import Loader from './Loader';
-import { type MouseEvent } from 'react';
-import { ClientResults } from './Clients';
 
 type ClientProps = {
   client: {
@@ -15,21 +13,26 @@ type ClientProps = {
 };
 
 const ClientRow = ({ client }: ClientProps) => {
-  const [deleteClient, { data, loading, error }] = useMutation(DELETE_CLIENT, {
+  const [deleteClient, { loading }] = useMutation(DELETE_CLIENT, {
     variables: { id: client.id },
+    onCompleted: () => {
+      // Perform any necessary actions after successful deletion
+    },
+    onError: (error: Error) => {
+      console.error('Error deleting client:', error);
+    },
   });
 
+  if (loading)
+    return (
+      <tr>
+        <td>
+          <Loader />
+        </td>
+      </tr>
+    );
+
   const { name, email, phone } = client;
-
-  // if (loading) return <Loader />;
-  // if (error) return 'Something went wrong';
-
-  const handleDeleteClient = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    console.log(e);
-    // deleteClient({ variables: { id: e.target.id } });
-  };
 
   return (
     <tr>
@@ -37,7 +40,10 @@ const ClientRow = ({ client }: ClientProps) => {
       <td>{email}</td>
       <td>{phone}</td>
       <td>
-        <button className='btn btn-danger btn-sm' onClick={handleDeleteClient}>
+        <button
+          className='btn btn-danger btn-sm'
+          onClick={() => deleteClient()}
+        >
           <FaTrash />
         </button>
       </td>
