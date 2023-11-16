@@ -7,11 +7,22 @@ const fa_1 = require("react-icons/fa");
 const clientMutations_1 = require("../mutations/clientMutations");
 const client_1 = require("@apollo/client");
 const Loader_1 = __importDefault(require("./Loader"));
+const clientQueries_1 = require("../queries/clientQueries");
 const ClientRow = ({ client }) => {
     const [deleteClient, { loading }] = (0, client_1.useMutation)(clientMutations_1.DELETE_CLIENT, {
         variables: { id: client.id },
-        onCompleted: () => {
-            // Perform any necessary actions after successful deletion
+        update(cache, { data: { deleteClient } }) {
+            const { clients } = cache.readQuery({ query: clientQueries_1.GET_CLIENTS });
+            const updatedClients = clients.filter((client) => client.id !== deleteClient.id);
+            // Overwrite cache and return all non-deleted clients in the UI
+            cache.writeQuery({
+                query: clientQueries_1.GET_CLIENTS,
+                data: {
+                    clients: updatedClients,
+                },
+            });
+            // Manually refetch the data
+            refetch();
         },
         onError: (error) => {
             console.error('Error deleting client:', error);
