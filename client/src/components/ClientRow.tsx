@@ -14,22 +14,33 @@ type ClientProps = {
 };
 
 const ClientRow = ({ client }: ClientProps) => {
-  const [deleteClient, { loading }] = useMutation(DELETE_CLIENT, {
+  const [deleteClient] = useMutation(DELETE_CLIENT, {
     variables: { id: client.id },
     update(cache, { data: { deleteClient } }): void {
+      console.log('in update');
+      // Remove deleted client from cache
       const { clients } = cache.readQuery({ query: GET_CLIENTS }) as {
         clients: ClientProps['client'][];
       };
 
-      const updatedClients = clients.filter(
-        (client: ClientProps['client']) => client.id !== deleteClient.id
+      console.log('pre clients list', clients);
+
+      console.log({ deleteClient });
+      const filteredClients = clients.filter(
+        (client: ClientProps['client']) => {
+          console.log(client.id);
+          console.log('delclient', deleteClient.id);
+          return client.id !== deleteClient.id;
+        }
       );
+
+      console.log(filteredClients);
 
       // Overwrite cache and return all non-deleted clients in the UI
       cache.writeQuery({
         query: GET_CLIENTS,
         data: {
-          clients: updatedClients,
+          clients: [...filteredClients], // Create a new array
         },
       });
     },
@@ -38,14 +49,14 @@ const ClientRow = ({ client }: ClientProps) => {
     },
   });
 
-  if (loading)
-    return (
-      <tr>
-        <td>
-          <Loader />
-        </td>
-      </tr>
-    );
+  // if (loading)
+  //   return (
+  //     <tr>
+  //       <td>
+  //         <Loader />
+  //       </td>
+  //     </tr>
+  //   );
 
   const { name, email, phone } = client;
 
