@@ -32,9 +32,6 @@ const ClientRow = ({ client }: ClientProps) => {
           clients: updatedClients,
         },
       });
-
-      // Manually refetch the data
-      refetch();
     },
     onError: (error: Error) => {
       console.error('Error deleting client:', error);
