@@ -65,9 +65,9 @@ const mutation = new GraphQLObjectType({
 
           if (!client) throw Error('Client not found');
 
-          console.log(client);
+          console.log('deleted client', client);
 
-          return { status: 202, message: 'Accepted' };
+          return client;
         } catch (error: any) {
           throw new Error(error.message);
         }

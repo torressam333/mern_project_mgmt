@@ -61,8 +61,8 @@ const mutation = new graphql_1.GraphQLObjectType({
                         });
                         if (!client)
                             throw Error('Client not found');
-                        console.log(client);
-                        return { status: 202, message: 'Accepted' };
+                        console.log('deleted client', client);
+                        return client;
                     }
                     catch (error) {
                         throw new Error(error.message);
