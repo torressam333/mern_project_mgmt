@@ -14,14 +14,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = require("@testing-library/react");
 const ClientRow_1 = __importDefault(require("../../src/components/ClientRow"));
+const testing_1 = require("@apollo/client/testing");
+const client_1 = require("@apollo/client");
+// Mock the ApolloClient instance for testing
+const mockedClient = new client_1.ApolloClient({
+    uri: 'http://localhost:4005/v1/graphql',
+    cache: new client_1.InMemoryCache(),
+});
 describe('Client Row', () => {
     const client = {
+        id: 'abcdef1234',
         name: 'John Doe',
         email: 'john.doe@example.com',
         phone: '(123) 456-7890',
     };
     beforeEach(() => {
-        (0, react_1.render)(<ClientRow_1.default client={client}/>);
+        (0, react_1.render)(<testing_1.MockedProvider client={mockedClient}>
+        <ClientRow_1.default client={client}/>
+      </testing_1.MockedProvider>);
     });
     describe('Client Row UI', () => {
         it('receives a client as a prop', () => {

@@ -1,15 +1,28 @@
 import { render, screen } from '@testing-library/react';
 import ClientRow from '../../src/components/ClientRow';
+import { MockedProvider } from '@apollo/client/testing';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+
+// Mock the ApolloClient instance for testing
+const mockedClient = new ApolloClient({
+  uri: 'http://localhost:4005/v1/graphql',
+  cache: new InMemoryCache(),
+});
 
 describe('Client Row', () => {
   const client = {
+    id: 'abcdef1234',
     name: 'John Doe',
     email: 'john.doe@example.com',
     phone: '(123) 456-7890',
   };
 
   beforeEach(() => {
-    render(<ClientRow client={client} />);
+    render(
+      <MockedProvider client={mockedClient}>
+        <ClientRow client={client} />
+      </MockedProvider>
+    );
   });
 
   describe('Client Row UI', () => {
