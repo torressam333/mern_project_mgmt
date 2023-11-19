@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import ClientRow from '../../src/components/ClientRow';
 import { MockedProvider } from '@apollo/client/testing';
-import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 describe('Client Row', () => {
   const client = {
