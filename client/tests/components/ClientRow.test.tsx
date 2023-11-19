@@ -3,12 +3,6 @@ import ClientRow from '../../src/components/ClientRow';
 import { MockedProvider } from '@apollo/client/testing';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
-// Mock the ApolloClient instance for testing
-const mockedClient = new ApolloClient({
-  uri: 'http://localhost:4005/v1/graphql',
-  cache: new InMemoryCache(),
-});
-
 describe('Client Row', () => {
   const client = {
     id: 'abcdef1234',
@@ -19,7 +13,7 @@ describe('Client Row', () => {
 
   beforeEach(() => {
     render(
-      <MockedProvider client={mockedClient}>
+      <MockedProvider>
         <ClientRow client={client} />
       </MockedProvider>
     );
