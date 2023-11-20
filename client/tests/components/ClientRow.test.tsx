@@ -1,9 +1,7 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ClientRow from '../../src/components/ClientRow';
 import { MockedProvider } from '@apollo/client/testing';
-import userEvent from '@testing-library/user-event';
 import { DELETE_CLIENT } from '../../src/mutations/clientMutations';
-import { act } from 'react-dom/test-utils'; // Import act for async updates
 
 describe('Client Row', () => {
   const client = {
