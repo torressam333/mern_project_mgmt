@@ -15,16 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = require("@testing-library/react");
 const ClientRow_1 = __importDefault(require("../../src/components/ClientRow"));
 const testing_1 = require("@apollo/client/testing");
-jest.mock('@apollo/client');
-const mockDeleteClient = jest.fn();
-const mockedDeleteClientMutation = jest.fn(() => [
-    mockDeleteClient,
-    {
-        data: {
-            deleteClient: {},
-        },
-    },
-]);
+const user_event_1 = __importDefault(require("@testing-library/user-event"));
+const clientMutations_1 = require("../../src/mutations/clientMutations");
 describe('Client Row', () => {
     const client = {
         id: 'abcdef1234',
@@ -32,8 +24,17 @@ describe('Client Row', () => {
         email: 'john.doe@example.com',
         phone: '(123) 456-7890',
     };
+    const deleteClientMock = [
+        {
+            request: {
+                query: clientMutations_1.DELETE_CLIENT,
+                variables: { id: 'abcdef1234' },
+            },
+            result: { data: client },
+        },
+    ];
     beforeEach(() => {
-        (0, react_1.render)(<testing_1.MockedProvider>
+        (0, react_1.render)(<testing_1.MockedProvider mocks={deleteClientMock}>
         <ClientRow_1.default client={client}/>
       </testing_1.MockedProvider>);
     });
@@ -58,11 +59,13 @@ describe('Client Row', () => {
             expect(deleteButton).toBeInTheDocument();
         }));
     });
-});
-describe('Client Row Deletion', () => {
-    it('should call deleteClient mutation on delete button click', () => __awaiter(void 0, void 0, void 0, function* () {
-        const deleteButton = react_1.screen.getByRole('button');
-        react_1.fireEvent.click(deleteButton);
-        expect(mockedDeleteClientMutation).toHaveBeenCalled();
-    }));
+    describe('Client Row Deletion', () => {
+        it('should render loading and success states on delete', () => __awaiter(void 0, void 0, void 0, function* () {
+            // Find the button element...
+            const deleteButton = react_1.screen.getByTestId('delete-client-button');
+            // Simulate a click and fire the mutation
+            user_event_1.default.click(deleteButton);
+            expect(yield react_1.screen.findByText('Loading...')).toBeInTheDocument();
+        }));
+    });
 });

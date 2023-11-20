@@ -14,7 +14,7 @@ type ClientProps = {
 };
 
 const ClientRow = ({ client }: ClientProps) => {
-  const [deleteClient, { data, loading }] = useMutation(DELETE_CLIENT, {
+  const [deleteClient, { loading }] = useMutation(DELETE_CLIENT, {
     variables: { id: client.id },
     update(cache, { data: { deleteClient } }): void {
       // Remove deleted client from cache
@@ -38,7 +38,7 @@ const ClientRow = ({ client }: ClientProps) => {
 
   if (loading)
     return (
-      <tr>
+      <tr data-testid='loader-row'>
         <td>
           <Loader />
         </td>
@@ -48,19 +48,22 @@ const ClientRow = ({ client }: ClientProps) => {
   const { name, email, phone } = client;
 
   return (
-    <tr>
-      <td>{name}</td>
-      <td>{email}</td>
-      <td>{phone}</td>
-      <td>
-        <button
-          className='btn btn-danger btn-sm'
-          onClick={() => deleteClient()}
-        >
-          <FaTrash />
-        </button>
-      </td>
-    </tr>
+    !loading && (
+      <tr>
+        <td>{name}</td>
+        <td>{email}</td>
+        <td>{phone}</td>
+        <td>
+          <button
+            className='btn btn-danger btn-sm'
+            onClick={() => deleteClient()}
+            data-testid='delete-client-button'
+          >
+            <FaTrash />
+          </button>
+        </td>
+      </tr>
+    )
   );
 };
 

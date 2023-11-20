@@ -1,19 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import ClientRow from '../../src/components/ClientRow';
 import { MockedProvider } from '@apollo/client/testing';
-
-jest.mock('@apollo/client');
-
-const mockDeleteClient = jest.fn();
-
-const mockedDeleteClientMutation = jest.fn(() => [
-  mockDeleteClient,
-  {
-    data: {
-      deleteClient: {},
-    },
-  },
-]);
+import userEvent from '@testing-library/user-event';
+import { DELETE_CLIENT } from '../../src/mutations/clientMutations';
+import { act } from 'react-dom/test-utils'; // Import act for async updates
 
 describe('Client Row', () => {
   const client = {
@@ -23,9 +13,19 @@ describe('Client Row', () => {
     phone: '(123) 456-7890',
   };
 
+  const deleteClientMock = [
+    {
+      request: {
+        query: DELETE_CLIENT,
+        variables: { id: 'abcdef1234' },
+      },
+      result: { data: client },
+    },
+  ];
+
   beforeEach(() => {
     render(
-      <MockedProvider>
+      <MockedProvider mocks={deleteClientMock}>
         <ClientRow client={client} />
       </MockedProvider>
     );
@@ -56,14 +56,5 @@ describe('Client Row', () => {
       expect(trashIcon).toBeInTheDocument();
       expect(deleteButton).toBeInTheDocument();
     });
-  });
-});
-
-describe('Client Row Deletion', () => {
-  it('should call deleteClient mutation on delete button click', async () => {
-    const deleteButton = screen.getByRole('button');
-    fireEvent.click(deleteButton);
-
-    expect(mockedDeleteClientMutation).toHaveBeenCalled();
   });
 });
