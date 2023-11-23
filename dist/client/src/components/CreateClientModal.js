@@ -8,7 +8,7 @@ const CreateClientModal = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     return (<>
-      <react_bootstrap_1.Button variant='primary' onClick={handleShow}>
+      <react_bootstrap_1.Button variant='primary' onClick={handleShow} data-testid='create-client-button'>
         <div className='d-flex align-items-center'>
           <fa_1.FaUser className='icon'/>
           <div>Create Client</div>

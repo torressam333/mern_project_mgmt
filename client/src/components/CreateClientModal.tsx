@@ -11,7 +11,11 @@ const CreateClientModal = () => {
 
   return (
     <>
-      <Button variant='primary' onClick={handleShow}>
+      <Button
+        variant='primary'
+        onClick={handleShow}
+        data-testid='create-client-button'
+      >
         <div className='d-flex align-items-center'>
           <FaUser className='icon' />
           <div>Create Client</div>
