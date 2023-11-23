@@ -28,7 +28,7 @@ This is a nano CRM app built with MERN stack (MongoDB, Express.js, React, and No
 
 ## Usage
 
-Once the app is running, you can access it at http://localhost:4005
+Once the app is running, you can access it at http://localhost:4005 (Features that will be created in this repo, currently a WIP! :D)
 
 - To create a new client or project, click the "+" button in the top right corner of the screen. You can then enter the relevant information and click "Create"
 
