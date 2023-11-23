@@ -12,27 +12,17 @@ const CreateClientModal = () => {
   return (
     <>
       <Button variant='primary' onClick={handleShow}>
-        Create Client
+        <div className='d-flex align-items-center'>
+          <FaUser className='icon' />
+          <div>Create Client</div>
+        </div>
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Create Client Form</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          Woohoo, you're reading this text in a modal!
-          <input type='text' />
-          <input type='text' />
-          <input type='text' />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant='primary' onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
+        <Modal.Body></Modal.Body>
       </Modal>
     </>
   );
