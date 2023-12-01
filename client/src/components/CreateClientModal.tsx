@@ -11,6 +11,8 @@ const CreateClientModal = () => {
 
   // Create Client Form (child) State
   const [clientName, setClientName] = useState<string>('');
+  const [clientEmail, setClientEmail] = useState<string>('');
+  const [clientPhone, setClientPhone] = useState<string>('');
 
   return (
     <>
@@ -33,6 +35,10 @@ const CreateClientModal = () => {
           <CreateClientForm
             clientName={clientName}
             setClientName={setClientName}
+            clientEmail={clientEmail}
+            setClientEmail={setClientEmail}
+            clientPhone={clientPhone}
+            setClientPhone={setClientPhone}
           />
         </Modal.Body>
       </Modal>

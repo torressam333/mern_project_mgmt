@@ -13,6 +13,8 @@ const CreateClientModal = () => {
     const handleShow = () => setShow(true);
     // Create Client Form (child) State
     const [clientName, setClientName] = (0, react_1.useState)('');
+    const [clientEmail, setClientEmail] = (0, react_1.useState)('');
+    const [clientPhone, setClientPhone] = (0, react_1.useState)('');
     return (<>
       <react_bootstrap_1.Button variant='primary' onClick={handleShow} data-testid='create-client-button'>
         <div className='d-flex align-items-center'>
@@ -26,7 +28,7 @@ const CreateClientModal = () => {
           <react_bootstrap_1.Modal.Title>Create Client Form</react_bootstrap_1.Modal.Title>
         </react_bootstrap_1.Modal.Header>
         <react_bootstrap_1.Modal.Body>
-          <CreateClientForm_1.default clientName={clientName} setClientName={setClientName}/>
+          <CreateClientForm_1.default clientName={clientName} setClientName={setClientName} clientEmail={clientEmail} setClientEmail={setClientEmail} clientPhone={clientPhone} setClientPhone={setClientPhone}/>
         </react_bootstrap_1.Modal.Body>
       </react_bootstrap_1.Modal>
     </>);

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const CreateClientForm = ({ clientName, setClientName, }) => {
+const CreateClientForm = ({ clientName, setClientName, clientEmail, setClientEmail, clientPhone, setClientPhone, }) => {
     return (<form>
       <div className='mb-3'>
         <label htmlFor='clientName' className='form-label'>
