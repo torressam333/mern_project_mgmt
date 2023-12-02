@@ -10,7 +10,6 @@ import Client from '../models/Client';
 import { ProjectType } from './projects/types';
 import Project from '../models/Project';
 import { MongooseError } from 'mongoose';
-import mongoose from 'mongoose';
 
 type ProjectResolverArgs = {
   name: GraphQLNonNull<typeof GraphQLString>;
@@ -70,6 +69,18 @@ const mutation = new GraphQLObjectType({
           return client;
         } catch (error: any) {
           throw new Error(error.message);
+        }
+      },
+    },
+    dropAllClientDocs: {
+      type: ClientType,
+      async resolve() {
+        try {
+          await Client.deleteMany({});
+
+          return { status: 202, message: 'Accepted' };
+        } catch (error: any) {
+          throw new Error(error);
         }
       },
     },

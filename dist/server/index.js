@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const express_graphql_1 = require("express-graphql");
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
+const clientSeeder_1 = __importDefault(require("./seeders/clientSeeder"));
 //For env File
 dotenv_1.default.config();
 // Project imports
@@ -30,6 +31,9 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         //connect to db
         yield (0, mongodb_1.default)();
+        // Asynchronously seed 10 clients for dev
+        if (process.env.NODE_ENV === 'development')
+            yield (0, clientSeeder_1.default)(10);
         // Start gql server
         app.use('/v1/graphql', (0, express_graphql_1.graphqlHTTP)({
             schema: schema_1.default,
@@ -41,5 +45,5 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
         console.error('Error in index file', error);
     }
 });
-// Start the server using IIFE
+// Bootstrap app and server
 start();

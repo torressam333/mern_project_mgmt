@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import seedClients from './seeders/clientSeeder';
 
 //For env File
 dotenv.config();
@@ -23,6 +24,9 @@ const start = async () => {
     //connect to db
     await connectDB();
 
+    // Asynchronously seed 10 clients for dev
+    if (process.env.NODE_ENV === 'development') await seedClients(10);
+
     // Start gql server
     app.use(
       '/v1/graphql',
@@ -42,5 +46,5 @@ const start = async () => {
   }
 };
 
-// Start the server using IIFE
+// Bootstrap app and server
 start();

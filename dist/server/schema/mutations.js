@@ -70,6 +70,20 @@ const mutation = new graphql_1.GraphQLObjectType({
                 });
             },
         },
+        dropAllClientDocs: {
+            type: types_1.ClientType,
+            resolve() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    try {
+                        yield Client_1.default.deleteMany({});
+                        return { status: 202, message: 'Accepted' };
+                    }
+                    catch (error) {
+                        throw new Error(error);
+                    }
+                });
+            },
+        },
         addProject: {
             type: types_2.ProjectType,
             args: {
