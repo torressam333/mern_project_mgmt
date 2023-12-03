@@ -9,6 +9,8 @@ type CreateClientFormProps = {
   setClientPhone: (value: string) => void;
 };
 
+const handleSubmit = () => {};
+
 const CreateClientForm = ({
   clientName,
   setClientName,
@@ -18,7 +20,7 @@ const CreateClientForm = ({
   setClientPhone,
 }: CreateClientFormProps) => {
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <LabelWithInput
         label='Client Name:'
         type='text'
@@ -43,6 +45,7 @@ const CreateClientForm = ({
         onChange={(e) => setClientPhone(e.target.value)}
         className='form-control mb-2'
       />
+      <button className='btn btn-primary'>Submit</button>
     </form>
   );
 };
