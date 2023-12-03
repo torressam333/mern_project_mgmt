@@ -9,7 +9,7 @@ const Client_1 = __importDefault(require("../../models/Client"));
 const types_1 = require("./types");
 const clientQueries = {
     clients: {
-        type: new graphql_1.GraphQLList(types_1.ClientType),
+        type: new graphql_1.GraphQLList(types_1.ClientType), // Multiple clients
         resolve() {
             return Client_1.default.find({ isDeleted: false }).exec();
         },

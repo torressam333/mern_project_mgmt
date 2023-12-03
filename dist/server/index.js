@@ -33,7 +33,7 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
         yield (0, mongodb_1.default)();
         // Asynchronously seed 10 clients for dev
         if (process.env.NODE_ENV === 'development')
-            yield (0, clientSeeder_1.default)(10);
+            yield (0, clientSeeder_1.default)();
         // Start gql server
         app.use('/v1/graphql', (0, express_graphql_1.graphqlHTTP)({
             schema: schema_1.default,

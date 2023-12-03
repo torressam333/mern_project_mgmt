@@ -1,23 +1,25 @@
 import Client from '../models/Client';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 
-async function seedClients(numClients: number): Promise<void> {
-  const clients = Array.from({ length: numClients }, () => ({
-    name: faker.name.findName(),
+function createRandomClient(): Client {
+  return {
+    id: faker.string.uuid(),
+    name: faker.internet.userName(),
     email: faker.internet.email(),
-    phone: faker.phone.phoneNumber(),
-  }));
-
-  try {
-    // Use bulk insertion
-    await Client.insertMany(clients);
-    console.log(`${numClients} clients successfully created!`);
-  } catch (error) {
-    console.error(error);
-  }
+    phone: faker.phone.number(),
+  };
 }
 
-// Example usage:
-seedClients(100);
+const CLIENTS: Client[] = faker.helpers.multiple(createRandomClient, {
+  count: 10,
+});
+
+const seedClients = async () => {
+  try {
+    await Client.insertMany(CLIENTS);
+  } catch (error) {
+    throw new Error(`Problem with client seeder: ${error}`);
+  }
+};
 
 export default seedClients;

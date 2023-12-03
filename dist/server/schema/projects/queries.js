@@ -8,7 +8,7 @@ const types_1 = require("./types");
 const Project_1 = __importDefault(require("../../models/Project"));
 const projectQueries = {
     projects: {
-        type: new graphql_1.GraphQLList(types_1.ProjectType),
+        type: new graphql_1.GraphQLList(types_1.ProjectType), // Multiple projects
         resolve() {
             // Return all projects except soft deleted ones
             return Project_1.default.find({ isDeleted: false });

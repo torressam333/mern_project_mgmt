@@ -25,7 +25,7 @@ const start = async () => {
     await connectDB();
 
     // Asynchronously seed 10 clients for dev
-    if (process.env.NODE_ENV === 'development') await seedClients(10);
+    if (process.env.NODE_ENV === 'development') await seedClients();
 
     // Start gql server
     app.use(
