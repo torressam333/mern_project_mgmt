@@ -6,13 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const LabelWithInput_1 = __importDefault(require("./common/LabelWithInput"));
 const CreateClientForm = ({ clientName, setClientName, clientEmail, setClientEmail, clientPhone, setClientPhone, }) => {
     return (<form>
-      <p className='mb-3'>
-        <label htmlFor='clientName' className='form-label'>
-          Client Name:
-        </label>
-        <input type='text' className='form-control' id='clientName' value={clientName} onChange={(e) => setClientName(e.target.value)}/>
-      </p>
-      <LabelWithInput_1.default label='Client Email:' type='text' id='clientEmail' value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} className='form-control'/>
+      <LabelWithInput_1.default label='Client Name:' type='text' id='clientName' value={clientName} onChange={(e) => setClientName(e.target.value)} className='form-control mb-2'/>
+      <LabelWithInput_1.default label='Client Email:' type='text' id='clientEmail' value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} className='form-control mb-2'/>
+      <LabelWithInput_1.default label='Client Phone:' type='text' id='clientPhone' value={clientPhone} onChange={(e) => setClientPhone(e.target.value)} className='form-control mb-2'/>
     </form>);
 };
 exports.default = CreateClientForm;
