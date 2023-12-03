@@ -27,7 +27,11 @@ const CLIENTS = faker_1.faker.helpers.multiple(createRandomClient, {
 });
 const seedClients = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield Client_1.default.insertMany(CLIENTS);
+        // Check if clients exist
+        const count = yield Client_1.default.countDocuments();
+        console.log(count);
+        if (count < 1)
+            yield Client_1.default.insertMany(CLIENTS);
     }
     catch (error) {
         throw new Error(`Problem with client seeder: ${error}`);

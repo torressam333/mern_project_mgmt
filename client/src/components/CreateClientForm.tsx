@@ -1,3 +1,5 @@
+import LabelWithInput from './common/LabelWithInput';
+
 type CreateClientFormProps = {
   clientName: string;
   setClientName: (value: string) => void;
@@ -17,7 +19,7 @@ const CreateClientForm = ({
 }: CreateClientFormProps) => {
   return (
     <form>
-      <div className='mb-3'>
+      <p className='mb-3'>
         <label htmlFor='clientName' className='form-label'>
           Client Name:
         </label>
@@ -28,7 +30,15 @@ const CreateClientForm = ({
           value={clientName}
           onChange={(e) => setClientName(e.target.value)}
         />
-      </div>
+      </p>
+      <LabelWithInput
+        label='Client Email:'
+        type='text'
+        id='clientEmail'
+        value={clientEmail}
+        onChange={(e) => setClientEmail(e.target.value)}
+        className='form-control'
+      />
     </form>
   );
 };
