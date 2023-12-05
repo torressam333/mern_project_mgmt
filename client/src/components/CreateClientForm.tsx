@@ -21,6 +21,7 @@ const CreateClientForm = ({
         value={clientName}
         onChange={(e) => setClientName(e.target.value)}
         className='form-control mb-2'
+        data-testid='client-name'
       />
       <LabelWithInput
         label='Client Email:'
@@ -29,6 +30,7 @@ const CreateClientForm = ({
         value={clientEmail}
         onChange={(e) => setClientEmail(e.target.value)}
         className='form-control mb-2'
+        data-testid='client-email'
       />
       <LabelWithInput
         label='Client Phone:'
@@ -37,6 +39,7 @@ const CreateClientForm = ({
         value={clientPhone}
         onChange={(e) => setClientPhone(e.target.value)}
         className='form-control mb-2'
+        data-testid='client-phone'
       />
       <button className='btn btn-primary'>Submit</button>
     </form>
