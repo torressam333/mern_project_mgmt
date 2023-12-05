@@ -1,15 +1,8 @@
 import LabelWithInput from './common/LabelWithInput';
 
-type CreateClientFormProps = {
-  clientName: string;
-  setClientName: (value: string) => void;
-  clientEmail: string;
-  setClientEmail: (value: string) => void;
-  clientPhone: string;
-  setClientPhone: (value: string) => void;
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 };
-
-const handleSubmit = () => {};
 
 const CreateClientForm = ({
   clientName,
