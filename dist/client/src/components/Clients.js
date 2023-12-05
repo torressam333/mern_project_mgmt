@@ -15,22 +15,20 @@ const Clients = () => {
         return `Something went wrong`;
     return (<>
       <h1 data-testid='clients-header'>All Clients</h1>
-      {!loading && !error && (<div>
-          <table className='table table-hover mt-3' data-testid='clients-table'>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {data &&
+      {!loading && !error && (<table className='table table-hover mt-3' data-testid='clients-table'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {data &&
                 data.clients.map((client) => (<ClientRow_1.default key={client.id} client={client}/>))}
-            </tbody>
-          </table>
-        </div>)}
+          </tbody>
+        </table>)}
     </>);
 };
 exports.default = Clients;

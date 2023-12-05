@@ -24,24 +24,22 @@ const Clients = () => {
     <>
       <h1 data-testid='clients-header'>All Clients</h1>
       {!loading && !error && (
-        <div>
-          <table className='table table-hover mt-3' data-testid='clients-table'>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {data &&
-                data.clients.map((client) => (
-                  <ClientRow key={client.id} client={client} />
-                ))}
-            </tbody>
-          </table>
-        </div>
+        <table className='table table-hover mt-3' data-testid='clients-table'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {data &&
+              data.clients.map((client) => (
+                <ClientRow key={client.id} client={client} />
+              ))}
+          </tbody>
+        </table>
       )}
     </>
   );
