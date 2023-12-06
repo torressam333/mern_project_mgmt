@@ -2,21 +2,32 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MockedProvider } from '@apollo/client/testing';
 import CreateClientForm from '../../src/components/CreateClientForm';
-import { vi } from 'vitest';
+import { useState } from 'react';
 
-const mockProps: CreateClientFormProps = {
-  clientName: '',
-  setClientName: vi.fn(),
-  clientEmail: '',
-  setClientEmail: vi.fn(),
-  clientPhone: '',
-  setClientPhone: vi.fn(),
+// Create a mock Parent component:
+const MockParentComponent = () => {
+  const [clientName, setClientName] = useState('');
+  const [clientEmail, setClientEmail] = useState('');
+  const [clientPhone, setClientPhone] = useState('');
+
+  return (
+    <MockedProvider>
+      <CreateClientForm
+        clientName={clientName}
+        setClientName={setClientName}
+        clientEmail={clientEmail}
+        setClientEmail={setClientEmail}
+        clientPhone={clientPhone}
+        setClientPhone={setClientPhone}
+      />
+    </MockedProvider>
+  );
 };
 
 beforeEach(() => {
   render(
     <MockedProvider>
-      <CreateClientForm {...mockProps} />
+      <MockParentComponent />
     </MockedProvider>
   );
 });
@@ -48,6 +59,6 @@ describe('Create Client Form In Modal', () => {
     );
 
     // Verify updated value after change event
-    // expect(nameInput.value).toEqual('Johnny Bravo');
+    expect(nameInput.value).toEqual('Johnny Bravo');
   });
 });
