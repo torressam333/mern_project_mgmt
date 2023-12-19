@@ -16,18 +16,19 @@ const react_1 = require("@testing-library/react");
 const user_event_1 = __importDefault(require("@testing-library/user-event"));
 const testing_1 = require("@apollo/client/testing");
 const CreateClientForm_1 = __importDefault(require("../../src/components/CreateClientForm"));
-const vitest_1 = require("vitest");
-const mockProps = {
-    clientName: '',
-    setClientName: vitest_1.vi.fn(),
-    clientEmail: '',
-    setClientEmail: vitest_1.vi.fn(),
-    clientPhone: '',
-    setClientPhone: vitest_1.vi.fn(),
+const react_2 = require("react");
+// Create a mock Parent component:
+const MockParentComponent = () => {
+    const [clientName, setClientName] = (0, react_2.useState)('');
+    const [clientEmail, setClientEmail] = (0, react_2.useState)('');
+    const [clientPhone, setClientPhone] = (0, react_2.useState)('');
+    return (<testing_1.MockedProvider>
+      <CreateClientForm_1.default clientName={clientName} setClientName={setClientName} clientEmail={clientEmail} setClientEmail={setClientEmail} clientPhone={clientPhone} setClientPhone={setClientPhone}/>
+    </testing_1.MockedProvider>);
 };
 beforeEach(() => {
     (0, react_1.render)(<testing_1.MockedProvider>
-      <CreateClientForm_1.default {...mockProps}/>
+      <MockParentComponent />
     </testing_1.MockedProvider>);
 });
 describe('Create Client Form In Modal', () => {

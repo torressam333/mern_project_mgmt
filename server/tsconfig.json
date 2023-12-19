@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "es2016" /* Target Node.js-compatible JavaScript version */,
+    /* Modules */
+    "module": "commonjs" /* Use CommonJS modules for Node.js */,
+    /* Emit */
+    "outDir": "./dist" /* Compile to the 'dist' folder */,
+    /* Interop Constraints */
+    "esModuleInterop": true /* Facilitate importing CommonJS modules */,
+    /* Type Checking */
+    "strict": true /* Enable strict type-checking for enhanced reliability */,
+    /* Completeness */
+    "skipLibCheck": true /* Skip type-checking built-in libraries for faster builds */
+  }
+}

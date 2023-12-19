@@ -1,17 +1,17 @@
-import express, { Application } from 'express';
-import { graphqlHTTP } from 'express-graphql';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import seedClients from './seeders/clientSeeder';
+import express, { Application } from "express";
+import { graphqlHTTP } from "express-graphql";
+import dotenv from "dotenv";
+import cors from "cors";
+import seedClients from "./seeders/clientSeeder";
 
 //For env File
 dotenv.config();
 
 // Project imports
-import schema from './schema/schema';
-import connectDB from './config/mongodb';
+import schema from "./schema/schema";
+import connectDB from "./config/mongodb";
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6002;
 
 const app: Application = express();
 
@@ -25,14 +25,14 @@ const start = async () => {
     await connectDB();
 
     // Asynchronously seed 10 clients for dev
-    if (process.env.NODE_ENV === 'development') await seedClients();
+    if (process.env.NODE_ENV === "development") await seedClients();
 
     // Start gql server
     app.use(
-      '/v1/graphql',
+      "/v1/graphql",
       graphqlHTTP({
         schema,
-        graphiql: process.env.NODE_ENV === 'development' && true,
+        graphiql: process.env.NODE_ENV === "development" && true
       })
     );
 
@@ -42,7 +42,7 @@ const start = async () => {
       )
     );
   } catch (error) {
-    console.error('Error in index file', error);
+    console.error("Error in index file", error);
   }
 };
 
