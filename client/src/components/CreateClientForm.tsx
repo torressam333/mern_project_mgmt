@@ -1,4 +1,9 @@
 import LabelWithInput from "./common/LabelWithInput";
+import { CREATE_CLIENT } from "../mutations/clientMutations";
+import { useMutation } from "@apollo/client";
+import { GET_CLIENTS } from "../queries/clientQueries";
+
+type ClientCacheBustType = ClientProps["client"][];
 
 const CreateClientForm = ({
   clientName,
@@ -8,9 +13,36 @@ const CreateClientForm = ({
   clientPhone,
   setClientPhone
 }: CreateClientFormProps) => {
+  const [addClient, { loading }] = useMutation(CREATE_CLIENT, {
+    variables: { name: clientName, email: clientEmail, phone: clientPhone },
+    update(cache, { data: { addClient } }): void {
+      // Update cache to include newly created client
+      const { clients } = cache.readQuery({ query: GET_CLIENTS }) as {
+        clients: ClientCacheBustType;
+      };
+
+      // Return new cahce with new client included
+      cache.writeQuery({
+        query: GET_CLIENTS,
+        data: {
+          clients: [...clients, addClient]
+        }
+      });
+    }
+  });
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(clientName, clientEmail, clientPhone);
+
+    if (!clientName || !clientEmail || !clientPhone) {
+      // TODO: add UI validation msg
+      console.log("missing fields");
+    }
+
+    addClient();
+    setClientName("");
+    setClientEmail("");
+    setClientPhone("");
   };
 
   return (

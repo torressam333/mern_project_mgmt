@@ -6,3 +6,12 @@ type CreateClientFormProps = {
   clientPhone: string;
   setClientPhone: (value: string) => void;
 };
+
+type ClientProps = {
+  client: {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+  };
+};
