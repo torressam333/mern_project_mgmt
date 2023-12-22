@@ -3,13 +3,13 @@ import {
   GraphQLString,
   GraphQLNonNull,
   GraphQLID,
-  GraphQLEnumType,
-} from 'graphql';
-import { ClientType } from './clients/types';
-import Client from '../models/Client';
-import { ProjectType } from './projects/types';
-import Project from '../models/Project';
-import { MongooseError } from 'mongoose';
+  GraphQLEnumType
+} from "graphql";
+import { ClientType } from "./clients/types";
+import Client from "../models/Client";
+import { ProjectType } from "./projects/types";
+import Project from "../models/Project";
+import { MongooseError } from "mongoose";
 
 type ProjectResolverArgs = {
   name: GraphQLNonNull<typeof GraphQLString>;
@@ -19,58 +19,52 @@ type ProjectResolverArgs = {
 };
 
 const projectStatuValues = {
-  new: { value: 'Not Started' },
-  progress: { value: 'In Progress' },
-  completed: { value: 'Completed' },
+  new: { value: "Not Started" },
+  progress: { value: "In Progress" },
+  completed: { value: "Completed" }
 };
 
 const mutation = new GraphQLObjectType({
-  name: 'Mutation',
+  name: "Mutation",
   fields: {
     addClient: {
       type: ClientType,
       args: {
         name: { type: GraphQLNonNull(GraphQLString) },
         email: { type: GraphQLNonNull(GraphQLString) },
-        phone: { type: GraphQLNonNull(GraphQLString) },
+        phone: { type: GraphQLNonNull(GraphQLString) }
       },
-      async resolve(parent, args) {
-        const { name, email, phone } = args;
-
+      async resolve(parent, { name, email, phone }) {
         const client = new Client({
           name,
           email,
-          phone,
+          phone
         });
 
         await client.save();
 
         return client;
-      },
+      }
     },
     deleteClient: {
       type: ClientType,
       args: {
-        id: { type: GraphQLNonNull(GraphQLID) },
+        id: { type: GraphQLNonNull(GraphQLID) }
       },
-      async resolve(_, args) {
+      async resolve(_, { id }) {
         try {
-          const id = args.id;
-
           // Find client and soft delete
           const client = await Client.findByIdAndUpdate(id, {
-            isDeleted: true,
+            isDeleted: true
           });
 
-          if (!client) throw Error('Client not found');
-
-          console.log('deleted client', client);
+          if (!client) throw Error("Client not found");
 
           return client;
         } catch (error: any) {
           throw new Error(error.message);
         }
-      },
+      }
     },
     dropAllClientDocs: {
       type: ClientType,
@@ -78,11 +72,11 @@ const mutation = new GraphQLObjectType({
         try {
           await Client.deleteMany({});
 
-          return { status: 202, message: 'Accepted' };
+          return { status: 202, message: "Accepted" };
         } catch (error: any) {
           throw new Error(error);
         }
-      },
+      }
     },
     addProject: {
       type: ProjectType,
@@ -91,12 +85,12 @@ const mutation = new GraphQLObjectType({
         description: { type: GraphQLNonNull(GraphQLString) },
         status: {
           type: new GraphQLEnumType({
-            name: 'ProjectStatus',
-            values: projectStatuValues,
+            name: "ProjectStatus",
+            values: projectStatuValues
           }),
-          defaultValue: 'Not Started',
+          defaultValue: "Not Started"
         },
-        clientId: { type: GraphQLNonNull(GraphQLID) },
+        clientId: { type: GraphQLNonNull(GraphQLID) }
       },
       async resolve(_, args) {
         const { name, description, status, clientId } =
@@ -108,30 +102,30 @@ const mutation = new GraphQLObjectType({
 
         // Make available in response
         return project;
-      },
+      }
     },
     deleteProjectById: {
       type: ProjectType,
       args: {
-        id: { type: GraphQLNonNull(GraphQLID) },
+        id: { type: GraphQLNonNull(GraphQLID) }
       },
       async resolve(_, args) {
         try {
           const project = await Project.findOne({
             _id: args.id,
-            isDeleted: false,
+            isDeleted: false
           });
 
-          if (!project) throw new Error('Project not found');
+          if (!project) throw new Error("Project not found");
 
           // Update the project's isDeleted flag to true (soft delete)
           await project.updateOne({ isDeleted: true });
 
-          return { status: 202, message: 'Accepted' };
+          return { status: 202, message: "Accepted" };
         } catch (error: any) {
           throw new Error(error.message);
         }
-      },
+      }
     },
     updateProject: {
       type: ProjectType,
@@ -141,10 +135,10 @@ const mutation = new GraphQLObjectType({
         description: { type: GraphQLString },
         status: {
           type: new GraphQLEnumType({
-            name: 'ProjectStatusUpdate',
-            values: projectStatuValues,
-          }),
-        },
+            name: "ProjectStatusUpdate",
+            values: projectStatuValues
+          })
+        }
       },
       async resolve(_, args) {
         try {
@@ -154,8 +148,8 @@ const mutation = new GraphQLObjectType({
               $set: {
                 name: args.name,
                 description: args.description,
-                status: args.status,
-              },
+                status: args.status
+              }
             },
             { new: true } // Create new if not found
           );
@@ -166,9 +160,9 @@ const mutation = new GraphQLObjectType({
             throw new Error(`Mongoose update error: ${error.message}`);
           else throw new Error(error.message);
         }
-      },
-    },
-  },
+      }
+    }
+  }
 });
 
 export default mutation;
