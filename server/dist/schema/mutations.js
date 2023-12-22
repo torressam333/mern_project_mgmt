@@ -19,56 +19,53 @@ const types_2 = require("./projects/types");
 const Project_1 = __importDefault(require("../models/Project"));
 const mongoose_1 = require("mongoose");
 const projectStatuValues = {
-    new: { value: 'Not Started' },
-    progress: { value: 'In Progress' },
-    completed: { value: 'Completed' },
+    new: { value: "Not Started" },
+    progress: { value: "In Progress" },
+    completed: { value: "Completed" }
 };
 const mutation = new graphql_1.GraphQLObjectType({
-    name: 'Mutation',
+    name: "Mutation",
     fields: {
         addClient: {
             type: types_1.ClientType,
             args: {
                 name: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLString) },
                 email: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLString) },
-                phone: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLString) },
+                phone: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLString) }
             },
-            resolve(parent, args) {
+            resolve(parent, { name, email, phone }) {
                 return __awaiter(this, void 0, void 0, function* () {
-                    const { name, email, phone } = args;
                     const client = new Client_1.default({
                         name,
                         email,
-                        phone,
+                        phone
                     });
                     yield client.save();
                     return client;
                 });
-            },
+            }
         },
         deleteClient: {
             type: types_1.ClientType,
             args: {
-                id: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLID) },
+                id: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLID) }
             },
-            resolve(_, args) {
+            resolve(_, { id }) {
                 return __awaiter(this, void 0, void 0, function* () {
                     try {
-                        const id = args.id;
                         // Find client and soft delete
                         const client = yield Client_1.default.findByIdAndUpdate(id, {
-                            isDeleted: true,
+                            isDeleted: true
                         });
                         if (!client)
-                            throw Error('Client not found');
-                        console.log('deleted client', client);
+                            throw Error("Client not found");
                         return client;
                     }
                     catch (error) {
                         throw new Error(error.message);
                     }
                 });
-            },
+            }
         },
         dropAllClientDocs: {
             type: types_1.ClientType,
@@ -76,13 +73,13 @@ const mutation = new graphql_1.GraphQLObjectType({
                 return __awaiter(this, void 0, void 0, function* () {
                     try {
                         yield Client_1.default.deleteMany({});
-                        return { status: 202, message: 'Accepted' };
+                        return { status: 202, message: "Accepted" };
                     }
                     catch (error) {
                         throw new Error(error);
                     }
                 });
-            },
+            }
         },
         addProject: {
             type: types_2.ProjectType,
@@ -91,12 +88,12 @@ const mutation = new graphql_1.GraphQLObjectType({
                 description: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLString) },
                 status: {
                     type: new graphql_1.GraphQLEnumType({
-                        name: 'ProjectStatus',
-                        values: projectStatuValues,
+                        name: "ProjectStatus",
+                        values: projectStatuValues
                     }),
-                    defaultValue: 'Not Started',
+                    defaultValue: "Not Started"
                 },
-                clientId: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLID) },
+                clientId: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLID) }
             },
             resolve(_, args) {
                 return __awaiter(this, void 0, void 0, function* () {
@@ -106,31 +103,31 @@ const mutation = new graphql_1.GraphQLObjectType({
                     // Make available in response
                     return project;
                 });
-            },
+            }
         },
         deleteProjectById: {
             type: types_2.ProjectType,
             args: {
-                id: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLID) },
+                id: { type: (0, graphql_1.GraphQLNonNull)(graphql_1.GraphQLID) }
             },
             resolve(_, args) {
                 return __awaiter(this, void 0, void 0, function* () {
                     try {
                         const project = yield Project_1.default.findOne({
                             _id: args.id,
-                            isDeleted: false,
+                            isDeleted: false
                         });
                         if (!project)
-                            throw new Error('Project not found');
+                            throw new Error("Project not found");
                         // Update the project's isDeleted flag to true (soft delete)
                         yield project.updateOne({ isDeleted: true });
-                        return { status: 202, message: 'Accepted' };
+                        return { status: 202, message: "Accepted" };
                     }
                     catch (error) {
                         throw new Error(error.message);
                     }
                 });
-            },
+            }
         },
         updateProject: {
             type: types_2.ProjectType,
@@ -140,10 +137,10 @@ const mutation = new graphql_1.GraphQLObjectType({
                 description: { type: graphql_1.GraphQLString },
                 status: {
                     type: new graphql_1.GraphQLEnumType({
-                        name: 'ProjectStatusUpdate',
-                        values: projectStatuValues,
-                    }),
-                },
+                        name: "ProjectStatusUpdate",
+                        values: projectStatuValues
+                    })
+                }
             },
             resolve(_, args) {
                 return __awaiter(this, void 0, void 0, function* () {
@@ -152,8 +149,8 @@ const mutation = new graphql_1.GraphQLObjectType({
                             $set: {
                                 name: args.name,
                                 description: args.description,
-                                status: args.status,
-                            },
+                                status: args.status
+                            }
                         }, { new: true } // Create new if not found
                         );
                         return projectToUpdate;
@@ -165,8 +162,8 @@ const mutation = new graphql_1.GraphQLObjectType({
                             throw new Error(error.message);
                     }
                 });
-            },
-        },
-    },
+            }
+        }
+    }
 });
 exports.default = mutation;
