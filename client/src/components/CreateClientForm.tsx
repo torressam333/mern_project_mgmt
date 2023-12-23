@@ -2,6 +2,7 @@ import LabelWithInput from "./common/LabelWithInput";
 import { CREATE_CLIENT } from "../mutations/clientMutations";
 import { useMutation } from "@apollo/client";
 import { GET_CLIENTS } from "../queries/clientQueries";
+import Loader from "./Loader";
 
 type ClientCacheBustType = ClientProps["client"][];
 
@@ -13,7 +14,7 @@ const CreateClientForm = ({
   clientPhone,
   setClientPhone
 }: CreateClientFormProps) => {
-  const [addClient, { loading }] = useMutation(CREATE_CLIENT, {
+  const [addClient, { loading, error }] = useMutation(CREATE_CLIENT, {
     variables: { name: clientName, email: clientEmail, phone: clientPhone },
     update(cache, { data: { addClient } }): void {
       // Update cache to include newly created client
@@ -44,6 +45,9 @@ const CreateClientForm = ({
     setClientEmail("");
     setClientPhone("");
   };
+
+  if (loading) return <Loader />;
+  if (error) return `Something went wrong`;
 
   return (
     <form onSubmit={handleSubmit}>
