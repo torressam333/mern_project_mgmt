@@ -37,7 +37,7 @@ const CreateClientForm = ({
 
     if (!clientName || !clientEmail || !clientPhone) {
       // TODO: add UI validation msg
-      console.log("missing fields");
+      alert("missing fields");
     }
 
     addClient();
