@@ -18,7 +18,7 @@ type ProjectResolverArgs = {
   clientId: GraphQLNonNull<typeof GraphQLID>;
 };
 
-const projectStatuValues = {
+const projectStatusValues = {
   new: { value: "Not Started" },
   progress: { value: "In Progress" },
   completed: { value: "Completed" }
@@ -86,7 +86,7 @@ const mutation = new GraphQLObjectType({
         status: {
           type: new GraphQLEnumType({
             name: "ProjectStatus",
-            values: projectStatuValues
+            values: projectStatusValues
           }),
           defaultValue: "Not Started"
         },
@@ -136,7 +136,7 @@ const mutation = new GraphQLObjectType({
         status: {
           type: new GraphQLEnumType({
             name: "ProjectStatusUpdate",
-            values: projectStatuValues
+            values: projectStatusValues
           })
         }
       },
