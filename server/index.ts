@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import seedClients from "./seeders/clientSeeder";
 
-//For env File
+//For env file parsing
 dotenv.config();
 
 // Project imports

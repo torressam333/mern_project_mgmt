@@ -1,5 +1,4 @@
 import { GraphQLID, GraphQLList } from 'graphql';
-
 import { ProjectType } from './types';
 import Project from '../../models/Project';
 
