@@ -6,14 +6,16 @@ import Loader from "./Loader";
 
 type ClientCacheBustType = ClientProps["client"][];
 
-const CreateClientForm = ({
-  clientName,
-  setClientName,
-  clientEmail,
-  setClientEmail,
-  clientPhone,
-  setClientPhone
-}: CreateClientFormProps) => {
+const CreateClientForm = (props: CreateClientFormProps) => {
+  const {
+    clientName,
+    setClientName,
+    clientEmail,
+    setClientEmail,
+    clientPhone,
+    setClientPhone
+  } = props;
+
   const [addClient, { loading, error }] = useMutation(CREATE_CLIENT, {
     variables: { name: clientName, email: clientEmail, phone: clientPhone },
     update(cache, { data: { addClient } }): void {
