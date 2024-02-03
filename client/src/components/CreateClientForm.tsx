@@ -3,10 +3,12 @@ import { CREATE_CLIENT } from "../mutations/clientMutations";
 import { useMutation } from "@apollo/client";
 import { GET_CLIENTS } from "../queries/clientQueries";
 import Loader from "./Loader";
+import { useState } from "react";
 
 type ClientCacheBustType = ClientProps["client"][];
 
 const CreateClientForm = (props: CreateClientFormProps) => {
+  const [errorMessage, setErrorMessage] = useState("");
   const {
     clientName,
     setClientName,
@@ -24,7 +26,7 @@ const CreateClientForm = (props: CreateClientFormProps) => {
         clients: ClientCacheBustType;
       };
 
-      // Return new cahce with new client included
+      // Return new cache with new client included
       cache.writeQuery({
         query: GET_CLIENTS,
         data: {
@@ -38,8 +40,7 @@ const CreateClientForm = (props: CreateClientFormProps) => {
     e.preventDefault();
 
     if (!clientName || !clientEmail || !clientPhone) {
-      // TODO: add UI validation msg
-      alert("missing fields");
+      setErrorMessage("Missing one or more of the required fields");
     }
 
     addClient();
@@ -49,43 +50,49 @@ const CreateClientForm = (props: CreateClientFormProps) => {
   };
 
   if (loading) return <Loader />;
-  if (error) return `Something went wrong`;
+  if (error) return setErrorMessage(error.message);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <LabelWithInput
-        label="Client Name:"
-        type="text"
-        id="clientName"
-        value={clientName}
-        onChange={(e) => setClientName(e.target.value)}
-        className="form-control mb-2"
-        data-testid="client-name"
-        required
-      />
-      <LabelWithInput
-        label="Client Email:"
-        type="text"
-        id="clientEmail"
-        value={clientEmail}
-        onChange={(e) => setClientEmail(e.target.value)}
-        className="form-control mb-2"
-        data-testid="client-email"
-        required
-      />
-      <LabelWithInput
-        label="Client Phone:"
-        type="tel"
-        id="clientPhone"
-        value={clientPhone}
-        onChange={(e) => setClientPhone(e.target.value)}
-        className="form-control mb-2"
-        data-testid="client-phone"
-        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-        required
-      />
-      <button className="btn btn-primary">Submit</button>
-    </form>
+    <>
+      {errorMessage ? (
+        <span className="alert-danger">{errorMessage}</span>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <LabelWithInput
+            label="Client Name:"
+            type="text"
+            id="clientName"
+            value={clientName}
+            onChange={(e) => setClientName(e.target.value)}
+            className="form-control mb-2"
+            data-testid="client-name"
+            required
+          />
+          <LabelWithInput
+            label="Client Email:"
+            type="text"
+            id="clientEmail"
+            value={clientEmail}
+            onChange={(e) => setClientEmail(e.target.value)}
+            className="form-control mb-2"
+            data-testid="client-email"
+            required
+          />
+          <LabelWithInput
+            label="Client Phone:"
+            type="tel"
+            id="clientPhone"
+            value={clientPhone}
+            onChange={(e) => setClientPhone(e.target.value)}
+            className="form-control mb-2"
+            data-testid="client-phone"
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            required
+          />
+          <button className="btn btn-primary">Submit</button>
+        </form>
+      )}
+    </>
   );
 };
 
