@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 
 export const client = new ApolloClient({
-  uri: "http://localhost:6003/v1/graphql",
+  uri: "http://localhost:6003/graphql",
   cache: new InMemoryCache()
 });
 
