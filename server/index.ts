@@ -29,7 +29,7 @@ const start = async () => {
 
     // Start gql server
     app.use(
-      "/v1/graphql",
+      "graphql",
       graphqlHTTP({
         schema,
         graphiql: process.env.NODE_ENV === "development" && true
@@ -38,7 +38,7 @@ const start = async () => {
 
     app.listen(PORT, () =>
       console.log(
-        `Running a GraphQL API server at http://localhost:${PORT}/v1/graphql`
+        `Running a GraphQL API server at http://localhost:${PORT}/graphql`
       )
     );
   } catch (error) {
